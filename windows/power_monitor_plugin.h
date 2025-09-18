@@ -12,7 +12,7 @@ class PowerMonitorPlugin : public flutter::Plugin {
  public:
   static void RegisterWithRegistrar(flutter::PluginRegistrarWindows *registrar);
 
-  PowerMonitorPlugin();
+  PowerMonitorPlugin(flutter::PluginRegistrarWindows* registrar);
 
   virtual ~PowerMonitorPlugin();
 
@@ -24,6 +24,19 @@ class PowerMonitorPlugin : public flutter::Plugin {
   void HandleMethodCall(
       const flutter::MethodCall<flutter::EncodableValue> &method_call,
       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
+
+
+private:
+  std::optional<LRESULT> WindowProcDelegate(HWND hwnd, UINT message,
+                                              WPARAM wparam, LPARAM lparam);
+
+  flutter::PluginRegistrarWindows* registrar_;
+
+  std::unique_ptr<flutter::MethodChannel<flutter::EncodableValue>>
+        notification_channel_;
+
+  int64_t window_proc_delegate_id_ = -1;
+
 };
 
 }  // namespace power_monitor

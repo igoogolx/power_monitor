@@ -26,4 +26,8 @@ abstract class PowerMonitorPlatform extends PlatformInterface {
   Future<String?> getPlatformVersion() {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
+
+  void setHandler(Future<void> Function(String?)? handler) {
+    throw UnimplementedError('setHandler() has not been implemented.');
+  }
 }
