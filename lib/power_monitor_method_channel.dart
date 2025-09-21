@@ -8,14 +8,11 @@ class MethodChannelPowerMonitor extends PowerMonitorPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
   final methodChannel = const MethodChannel('power_monitor');
-  final notificationMethodChannel = const MethodChannel(
-    'power_monitor_notification',
-  );
 
   static Future<void> Function(String?)? _handler;
 
   MethodChannelPowerMonitor() {
-    notificationMethodChannel.setMethodCallHandler((call) async {
+    methodChannel.setMethodCallHandler((call) async {
       if (call.method == 'on') {
         if (_handler != null) {
           await _handler!(call.arguments);

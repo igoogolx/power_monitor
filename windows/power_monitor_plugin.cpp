@@ -35,7 +35,7 @@ namespace power_monitor {
 
 	PowerMonitorPlugin::PowerMonitorPlugin(flutter::PluginRegistrarWindows* registrar) : registrar_(registrar), notification_channel_(std::move(
 		std::make_unique<flutter::MethodChannel<flutter::EncodableValue>>(
-			registrar->messenger(), "power_monitor_notification",
+			registrar->messenger(), "power_monitor",
 			&flutter::StandardMethodCodec::GetInstance()))) {
 		if (window_proc_delegate_id_ == -1) {
 			window_proc_delegate_id_ = registrar_->RegisterTopLevelWindowProcDelegate(
@@ -77,10 +77,17 @@ namespace power_monitor {
 
 	std::optional<LRESULT> PowerMonitorPlugin::WindowProcDelegate(
 		HWND hwnd, UINT iMessage, WPARAM wparam, LPARAM lparam) {
+
+	    if (iMessage == WM_USERCHANGED) {
+    			auto args = std::make_unique<flutter::EncodableValue>("user_changed");
+    			notification_channel_->InvokeMethod("on", std::move(args));
+    	}
+
 		if (iMessage == WM_QUERYENDSESSION) {
-			auto args = std::make_unique<flutter::EncodableValue>("terminate_app");
+			auto args = std::make_unique<flutter::EncodableValue>("shutdown");
 			notification_channel_->InvokeMethod("on", std::move(args));
 		}
+
 		if (iMessage == WM_POWERBROADCAST) {
 			if (wparam == PBT_APMSUSPEND) {
 				auto args = std::make_unique<flutter::EncodableValue>("sleep");
