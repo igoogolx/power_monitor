@@ -15,15 +15,20 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with PowerMonitorListener {
   String _platformVersion = 'Unknown';
-  final _powerMonitorPlugin = PowerMonitor();
 
   @override
   void initState() {
     super.initState();
+    powerMonitor.addListener(this);
     initPlatformState();
-    _powerMonitorPlugin.setHandler(powerMonitorHandler);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    powerMonitor.removeListener(this);
   }
 
   Future<void> powerMonitorHandler(String? s) async {
@@ -37,8 +42,7 @@ class _MyAppState extends State<MyApp> {
     // We also handle the message potentially returning null.
     try {
       platformVersion =
-          await _powerMonitorPlugin.getPlatformVersion() ??
-          'Unknown platform version';
+          await powerMonitor.getPlatformVersion() ?? 'Unknown platform version';
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -51,6 +55,16 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _platformVersion = platformVersion;
     });
+  }
+
+  @override
+  onPowerMonitorSleep() {
+    debugPrint('onPowerMonitorSleep');
+  }
+
+  @override
+  onPowerMonitorWokeUp() {
+    debugPrint('onPowerMonitorWokeUp');
   }
 
   @override
