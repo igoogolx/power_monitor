@@ -11,7 +11,10 @@ class MockPowerMonitorPlatform
   Future<String?> getPlatformVersion() => Future.value('42');
 
   @override
-  void setHandler(Future<void> Function(String?)? handler) {}
+  void addListener(PowerMonitorListener listener) {}
+
+  @override
+  void removeListener(PowerMonitorListener listener) {}
 }
 
 void main() {

@@ -1,4 +1,5 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:power_monitor/src/power_monitor_listener.dart';
 
 import 'power_monitor_method_channel.dart';
 
@@ -27,7 +28,11 @@ abstract class PowerMonitorPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  void setHandler(Future<void> Function(String?)? handler) {
-    throw UnimplementedError('setHandler() has not been implemented.');
+  void addListener(PowerMonitorListener listener) {
+    throw UnimplementedError('addListener() has not been implemented.');
+  }
+
+  void removeListener(PowerMonitorListener listener) {
+    throw UnimplementedError('removeListener() has not been implemented.');
   }
 }
