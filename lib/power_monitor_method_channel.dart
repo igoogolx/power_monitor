@@ -56,10 +56,10 @@ class MethodChannelPowerMonitor extends PowerMonitorPlatform {
 
       String eventName = call.arguments;
       Map<String, Function> funcMap = {
-        kPowerMonitorEventSleep: listener.onPowerMonitorSleep(),
-        kPowerMonitorEventWokeUp: listener.onPowerMonitorWokeUp(),
-        kPowerMonitorEventShutdown: listener.onPowerMonitorShutdown(),
-        kPowerMonitorEventUserChanged: listener.onPowerMonitorUserChanged(),
+        kPowerMonitorEventSleep: listener.onPowerMonitorSleep,
+        kPowerMonitorEventWokeUp: listener.onPowerMonitorWokeUp,
+        kPowerMonitorEventShutdown: listener.onPowerMonitorShutdown,
+        kPowerMonitorEventUserChanged: listener.onPowerMonitorUserChanged,
       };
       funcMap[eventName]?.call();
     }
