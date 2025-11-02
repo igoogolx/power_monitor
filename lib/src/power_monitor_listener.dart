@@ -1,9 +1,9 @@
 abstract mixin class PowerMonitorListener {
-  onPowerMonitorSleep() {}
+  void onPowerMonitorSleep() {}
 
-  onPowerMonitorWokeUp() {}
+  void onPowerMonitorWokeUp() {}
 
-  onPowerMonitorUserChanged() {}
+  void onPowerMonitorUserChanged() {}
 
-  onPowerMonitorShutdown() {}
+  void onPowerMonitorShutdown() {}
 }
